@@ -12,11 +12,11 @@ create table ROLES(
 );
 
 create table PERMISIONS_ROLES(
-    permission_id int not null,
-    role_id int not null,
-    primary key(permission_id,role_id),
-    foreign key(permission_id) references PERMISIONS(id),
-    foreign key(role_id) references ROLES(id)
+    permissionId int not null,
+    roleId int not null,
+    primary key(permissionId,roleId),
+    foreign key(permissionId) references PERMISIONS(id),
+    foreign key(roleId) references ROLES(id)
 );
 
 create table USERS(
@@ -25,9 +25,9 @@ create table USERS(
     firstName varchar(255) not null,
     lastName varchar(255) not null,
     password varchar(255) not null,
-    role_id int not null,
+    roleId int not null,
     primary key(id),
-    foreign key(role_id) references ROLES(id)
+    foreign key(roleId) references ROLES(id)
 );
 
 insert into ROLES(id, role) values(1, "Admin");
@@ -40,14 +40,15 @@ insert into PERMISIONS(id, permission) values (3, "Update");
 insert into PERMISIONS(id, permission) values (4, "Delete");
 
 -- Admin
-insert into PERMISIONS_ROLES(permission_id, role_id) values (1,1); -- Create
-insert into PERMISIONS_ROLES(permission_id, role_id) values (2,1); -- Read
-insert into PERMISIONS_ROLES(permission_id, role_id) values (3,1); -- Update
-insert into PERMISIONS_ROLES(permission_id, role_id) values (4,1); -- Delete
+insert into PERMISIONS_ROLES(permissionId, roleId) values (1,1); -- Create
+insert into PERMISIONS_ROLES(permissionId, roleId) values (2,1); -- Read
+insert into PERMISIONS_ROLES(permissionId, roleId) values (3,1); -- Update
+insert into PERMISIONS_ROLES(permissionId, roleId) values (4,1); -- Delete
 
 -- Seller
-insert into PERMISIONS_ROLES(permission_id, role_id) values (2,2); -- Read
-insert into PERMISIONS_ROLES(permission_id, role_id) values (3,2); -- Update
+insert into PERMISIONS_ROLES(permissionId, roleId) values (2,2); -- Read
+insert into PERMISIONS_ROLES(permissionId, roleId) values (3,2); -- Update
 
 -- Customer
-insert into PERMISIONS_ROLES(permission_id, role_id) values (2,3); -- Read
+insert into PERMISIONS_ROLES(permissionId, roleI
+d) values (2,3); -- Read
