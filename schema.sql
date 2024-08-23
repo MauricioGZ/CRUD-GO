@@ -50,5 +50,4 @@ insert into PERMISIONS_ROLES(permissionId, roleId) values (2,2); -- Read
 insert into PERMISIONS_ROLES(permissionId, roleId) values (3,2); -- Update
 
 -- Customer
-insert into PERMISIONS_ROLES(permissionId, roleI
-d) values (2,3); -- Read
+insert into PERMISIONS_ROLES(permissionId, roleId) values (2,3); -- Read
