@@ -2,20 +2,23 @@ package repository
 
 import (
 	"context"
+	"database/sql"
+	"fmt"
 	"time"
 
 	"github.com/MauricioGZ/CRUD-GO/internal/entity"
 )
 
 const (
-	qryInsertUser = `	insert into users (
+	qryInsertUser = `	insert into USERS (
 															firstName,
 															lastName,
 															email,
 															password,
+															roleId,
 															createdAt
 															)
-										values (?,?,?,?,?);`
+										values (?,?,?,?,?,?);`
 	qryGetUserByEmail = `	select 
 													id, 
 													firstName, 
@@ -23,17 +26,28 @@ const (
 													email,
 													password,
 													createdAt
-												from users
+												from USERS
 												where email = ?;`
 )
 
+const (
+	AdminRole    int64 = 1
+	SellerRole   int64 = 2
+	CustomerRole int64 = 3
+)
+
 func (r *repo) SaveUser(ctx context.Context, firstName, lastName, email, password string) error {
-	_, err := r.db.ExecContext(ctx, qryInsertUser,
+	_, err := r.db.ExecContext(
+		ctx,
+		qryInsertUser,
 		firstName,
 		lastName,
 		email,
 		password,
-		time.Now().UTC())
+		CustomerRole,
+		time.Now().UTC(),
+	)
+	fmt.Println(err)
 	return err
 }
 
@@ -53,6 +67,9 @@ func (r *repo) GetUserByEmail(ctx context.Context, email string) (*entity.User, 
 	)
 
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
 		return nil, err
 	}
 

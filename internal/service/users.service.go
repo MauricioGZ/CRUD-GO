@@ -15,10 +15,11 @@ var (
 
 func (s *serv) RegisterUser(ctx context.Context, firstName, lastName, email, password string) error {
 	user, err := s.repo.GetUserByEmail(ctx, email)
-	if err != nil {
-		return err
-	}
+
 	if user != nil {
+		if err != nil {
+			return err
+		}
 		return ErrUserAlreadyExists
 	}
 
