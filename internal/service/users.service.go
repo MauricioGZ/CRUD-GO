@@ -30,7 +30,7 @@ func (s *serv) RegisterUser(ctx context.Context, firstName, lastName, email, pas
 
 	encryptedPassword := encryption.ToBase64(bb)
 
-	s.repo.SaveUser(
+	err = s.repo.SaveUser(
 		ctx,
 		firstName,
 		lastName,
@@ -38,7 +38,7 @@ func (s *serv) RegisterUser(ctx context.Context, firstName, lastName, email, pas
 		encryptedPassword,
 	)
 
-	return nil
+	return err
 }
 
 func (s *serv) LoginUser(ctx context.Context, email, password string) (*model.User, error) {

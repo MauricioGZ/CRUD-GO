@@ -3,6 +3,7 @@ package api
 import (
 	"net/http"
 
+	"github.com/MauricioGZ/CRUD-GO/encryption"
 	"github.com/MauricioGZ/CRUD-GO/internal/api/dtos"
 	"github.com/MauricioGZ/CRUD-GO/internal/service"
 	"github.com/labstack/echo/v4"
@@ -45,6 +46,34 @@ func (a *API) LoginUser(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "internal server error"})
 	}
 
-	return c.JSON(http.StatusOK, u)
+	token, err := encryption.SignedLoginToken(u)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "intertnal server error"})
+	}
 
+	cookie := &http.Cookie{
+		Name:     "Authorization",
+		Value:    token,
+		Secure:   true,
+		HttpOnly: true,
+		Path:     "/",
+		SameSite: http.SameSiteNoneMode,
+	}
+	c.SetCookie(cookie)
+
+	return c.JSON(http.StatusOK, u)
+}
+
+func validateUser(c echo.Context) (string, error) {
+	cookie, err := c.Cookie("Authorization")
+	if err != nil {
+		return "", err
+	}
+
+	claims, err := encryption.ParseLoginJWT(cookie.Value)
+	if err != nil {
+		return "", err
+	}
+
+	return claims["email"].(string), nil
 }

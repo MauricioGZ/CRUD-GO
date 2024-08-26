@@ -8,8 +8,15 @@ import (
 )
 
 type Repository interface {
+	//user interfaces
 	SaveUser(ctx context.Context, firstName, lastName, email, password string) error
 	GetUserByEmail(ctx context.Context, email string) (*entity.User, error)
+	DeleteUserByEmail(ctx context.Context, email string) error
+	//address interfaces
+	SaveAddress(ctx context.Context, userId int64, addressType, address, city, state, country, zipCode string) error
+	GetAddressesByUserId(ctx context.Context, userId int64) ([]entity.Address, error)
+	DeleteAddressByID(ctx context.Context, id int64) error
+	UpdateAddressByID(ctx context.Context, id int64, addressType, address, city, state, country, zipCode string) error
 }
 
 type repo struct {

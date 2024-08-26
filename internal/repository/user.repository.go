@@ -3,7 +3,6 @@ package repository
 import (
 	"context"
 	"database/sql"
-	"fmt"
 	"time"
 
 	"github.com/MauricioGZ/CRUD-GO/internal/entity"
@@ -28,6 +27,8 @@ const (
 													createdAt
 												from USERS
 												where email = ?;`
+	qryDeleteUserByEmail = `delete from USERS
+													where email = ?;`
 )
 
 const (
@@ -47,7 +48,7 @@ func (r *repo) SaveUser(ctx context.Context, firstName, lastName, email, passwor
 		CustomerRole,
 		time.Now().UTC(),
 	)
-	fmt.Println(err)
+
 	return err
 }
 
@@ -74,4 +75,9 @@ func (r *repo) GetUserByEmail(ctx context.Context, email string) (*entity.User, 
 	}
 
 	return &user, nil
+}
+
+func (r *repo) DeleteUserByEmail(ctx context.Context, email string) error {
+	_, err := r.db.ExecContext(ctx, qryDeleteUserByEmail, email)
+	return err
 }
