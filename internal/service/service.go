@@ -15,6 +15,7 @@ type Service interface {
 	RegisterAddress(ctx context.Context, email, addressType, address, city, state, country, zipCode string) error
 	UpdateAddress(ctx context.Context, id int64, addressType, address, city, state, country, zipCode string) error
 	GetAllAddresses(ctx context.Context, email string) ([]model.Address, error)
+	DeleteAddress(ctx context.Context, id int64) error
 }
 
 type serv struct {

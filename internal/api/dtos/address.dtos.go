@@ -13,3 +13,7 @@ type UpdateAddress struct {
 	ID int64 `json:"id"`
 	RegisterAddress
 }
+
+type DeleteAddress struct {
+	ID int64 `param:"id"`
+}

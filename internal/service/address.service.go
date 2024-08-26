@@ -55,3 +55,8 @@ func (s *serv) GetAllAddresses(ctx context.Context, email string) ([]model.Addre
 
 	return addresses, nil
 }
+
+func (s *serv) DeleteAddress(ctx context.Context, id int64) error {
+	err := s.repo.DeleteAddressByID(ctx, id)
+	return err
+}

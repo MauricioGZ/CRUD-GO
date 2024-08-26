@@ -84,3 +84,25 @@ func (a *API) GetAddresses(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, aa)
 }
+
+func (a *API) DeleteAddress(c echo.Context) error {
+	ctx := c.Request().Context()
+	aParams := dtos.DeleteAddress{}
+	_, err := validateUser(c)
+
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, responseMessage{Message: "unauthorized"})
+	}
+
+	if err := c.Bind(&aParams); err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "invalid request"})
+	}
+
+	err = a.serv.DeleteAddress(ctx, aParams.ID)
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "internal server error"})
+	}
+
+	return c.JSON(http.StatusOK, responseMessage{Message: "address successfully deleted"})
+}

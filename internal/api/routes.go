@@ -14,4 +14,5 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	address.GET("/", a.GetAddresses)
 	address.POST("/register", a.AddAddress)
 	address.POST("/update", a.UpdateAddress)
+	address.POST("/delete/:id", a.DeleteAddress)
 }
