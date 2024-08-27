@@ -7,6 +7,9 @@ import (
 	"github.com/MauricioGZ/CRUD-GO/internal/entity"
 )
 
+// The Repository interfaces wraps the CRUD operations
+//
+//go:generate mockery --name=Repository --output=repository --inpackage
 type Repository interface {
 	//user interfaces
 	SaveUser(ctx context.Context, firstName, lastName, email, password string) error
