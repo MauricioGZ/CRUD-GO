@@ -2,18 +2,26 @@ package service
 
 import (
 	"context"
+	"errors"
 
 	"github.com/MauricioGZ/CRUD-GO/internal/model"
 )
 
-func (s *serv) RegisterAddress(ctx context.Context, email, addressType, address, city, state, country, zipCode string) error {
-	u, err := s.repo.GetUserByEmail(ctx, email)
+var (
+	ErrUserDoesntExist = errors.New("user doesn't exist")
+)
 
-	if err != nil {
-		return err
+func (s *serv) RegisterAddress(ctx context.Context, email, addressType, address, city, state, country, zipCode string) error {
+	user, err := s.repo.GetUserByEmail(ctx, email)
+
+	if user == nil {
+		if err != nil {
+			return err
+		}
+		return ErrUserDoesntExist
 	}
 
-	err = s.repo.SaveAddress(ctx, u.ID, addressType, address, city, state, country, zipCode)
+	err = s.repo.SaveAddress(ctx, user.ID, addressType, address, city, state, country, zipCode)
 
 	return err
 }
@@ -26,13 +34,16 @@ func (s *serv) UpdateAddress(ctx context.Context, id int64, addressType, address
 }
 
 func (s *serv) GetAllAddresses(ctx context.Context, email string) ([]model.Address, error) {
-	u, err := s.repo.GetUserByEmail(ctx, email)
+	user, err := s.repo.GetUserByEmail(ctx, email)
 
-	if err != nil {
-		return nil, err
+	if user == nil {
+		if err != nil {
+			return nil, err
+		}
+		return nil, ErrUserDoesntExist
 	}
 
-	aa, err := s.repo.GetAddressesByUserId(ctx, u.ID)
+	aa, err := s.repo.GetAddressesByUserId(ctx, user.ID)
 
 	if err != nil {
 		return nil, err

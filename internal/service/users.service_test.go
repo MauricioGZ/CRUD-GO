@@ -18,7 +18,7 @@ func TestRegisterUser(t *testing.T) {
 			Name:          "RegisterUser: Success",
 			FirstName:     "Validname",
 			LastName:      "Validsurname",
-			Email:         "email@newuser.com",
+			Email:         "email@doesntexist.com",
 			Password:      "validpassword",
 			ExpectedError: nil,
 		},
@@ -61,6 +61,12 @@ func TestLoginUser(t *testing.T) {
 			Email:         "email@existinguser.com",
 			Password:      "validpassword",
 			ExpectedError: nil,
+		},
+		{
+			Name:          "LoginUser: Success",
+			Email:         "email@existinguser.com",
+			Password:      "invalidpassword",
+			ExpectedError: ErrInvalidCredentials,
 		},
 	}
 
