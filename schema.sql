@@ -46,9 +46,9 @@ create table ADDRESSES(
 
 create table CATEGORIES(
     id int not null auto_increment,
-    name varchar(100) not null,
+    name varchar(100) not null unique,
     description text,
-    paraentId int,
+    parentId int,
     primary key(id),
     foreign key(paraentId) references CATEGORIES(id)
 );
