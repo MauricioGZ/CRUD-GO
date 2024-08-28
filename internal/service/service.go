@@ -18,6 +18,7 @@ type Service interface {
 	DeleteAddress(ctx context.Context, id int64) error
 	//cateogires services
 	RegisterCategory(ctx context.Context, name, description string, parentID int64) error
+	GetAllCategories(ctx context.Context) ([]model.Categories, error)
 }
 
 type serv struct {

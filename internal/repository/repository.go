@@ -22,6 +22,7 @@ type Repository interface {
 	UpdateAddressByID(ctx context.Context, id int64, addressType, address, city, state, country, zipCode string) error
 	//categories interfaces
 	InsertCategory(ctx context.Context, name, description string, parentID int64) error
+	GetAllCategories(ctx context.Context) ([]entity.Categories, error)
 	GetCategoryByID(ctx context.Context, id int64) (*entity.Categories, error)
 	GetCategoryByName(ctx context.Context, name string) (*entity.Categories, error)
 	UpdateCategoryByID(ctx context.Context, id int64, name, description string, parentID int64) error

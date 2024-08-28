@@ -50,7 +50,7 @@ create table CATEGORIES(
     description text,
     parentId int,
     primary key(id),
-    foreign key(paraentId) references CATEGORIES(id)
+    foreign key(parentId) references CATEGORIES(id)
 );
 
 create table PRODUCTS(

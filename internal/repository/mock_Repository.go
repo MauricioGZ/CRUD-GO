@@ -80,6 +80,36 @@ func (_m *MockRepository) GetAddressesByUserId(ctx context.Context, userId int64
 	return r0, r1
 }
 
+// GetAllCategories provides a mock function with given fields: ctx
+func (_m *MockRepository) GetAllCategories(ctx context.Context) ([]entity.Categories, error) {
+	ret := _m.Called(ctx)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetAllCategories")
+	}
+
+	var r0 []entity.Categories
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context) ([]entity.Categories, error)); ok {
+		return rf(ctx)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context) []entity.Categories); ok {
+		r0 = rf(ctx)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]entity.Categories)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
+		r1 = rf(ctx)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetCategoryByID provides a mock function with given fields: ctx, id
 func (_m *MockRepository) GetCategoryByID(ctx context.Context, id int64) (*entity.Categories, error) {
 	ret := _m.Called(ctx, id)

@@ -27,6 +27,13 @@ func TestRegisterCategory(t *testing.T) {
 			ParentID:      1,
 			ExpectedError: ErrCategoryAlreadyExists,
 		},
+		{
+			Name:          "RegisterCategory: Parent id does not exist",
+			CategoryName:  "New Category",
+			Description:   "Some description",
+			ParentID:      100,
+			ExpectedError: ErrParentCategoryDoesNotExist,
+		},
 	}
 
 	ctx := context.Background()

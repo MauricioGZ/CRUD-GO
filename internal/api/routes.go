@@ -7,6 +7,7 @@ import (
 func (a *API) RegisterRoutes(e *echo.Echo) {
 	user := e.Group("/user")
 	address := user.Group("/address")
+	categories := e.Group("/categories")
 
 	user.POST("/register", a.RegisterUser)
 	user.GET("/login", a.LoginUser)
@@ -15,4 +16,7 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	address.POST("/register", a.AddAddress)
 	address.POST("/update", a.UpdateAddress)
 	address.POST("/delete/:id", a.DeleteAddress)
+
+	categories.POST("/register", a.RegisterCategory)
+	categories.GET("/", a.GetAllCategories)
 }
