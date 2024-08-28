@@ -19,7 +19,7 @@ func TestMain(m *testing.M) {
 	var validId int64 = 1
 
 	repo = &repository.MockRepository{}
-	// user repo mocks
+	//user repo mocks
 	repo.On("GetUserByEmail", mock.Anything, "email@doesntexist.com").Return(nil, nil)
 	repo.On("GetUserByEmail", mock.Anything, "email@existinguser.com").Return(&entity.User{
 		ID:       validId,
@@ -27,9 +27,13 @@ func TestMain(m *testing.M) {
 		Password: encryptedPassword,
 	}, nil)
 	repo.On("SaveUser", mock.Anything, mock.Anything, mock.Anything, mock.Anything, mock.Anything).Return(nil)
-	// address repo mocks
+	//address repo mocks
 	repo.On("SaveAddress", mock.Anything, validId, mock.Anything, mock.Anything, mock.Anything, mock.Anything, mock.Anything, mock.Anything).Return(nil)
 	repo.On("GetAddressesByUserId", mock.Anything, validId).Return([]entity.Address{{Address: mock.Anything}, {Address: mock.Anything}}, nil)
+	//categories repo mocks
+	repo.On("GetCategoryByName", mock.Anything, "New Category").Return(nil, nil)
+	repo.On("GetCategoryByName", mock.Anything, "Existing Category").Return(&entity.Categories{Name: "Existing Category"}, nil)
+	repo.On("InsertCategory", mock.Anything, mock.Anything, mock.Anything, mock.Anything).Return(nil)
 
 	s = New(repo)
 

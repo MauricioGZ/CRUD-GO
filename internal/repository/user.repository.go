@@ -10,13 +10,13 @@ import (
 
 const (
 	qryInsertUser = `	insert into USERS (
-															firstName,
-															lastName,
-															email,
-															password,
-															roleId,
-															createdAt
-															)
+											firstName,
+											lastName,
+											email,
+											password,
+											roleId,
+											createdAt
+											)
 										values (?,?,?,?,?,?);`
 	qryGetUserByEmail = `	select 
 													id, 

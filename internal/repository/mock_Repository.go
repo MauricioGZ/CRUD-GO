@@ -80,6 +80,66 @@ func (_m *MockRepository) GetAddressesByUserId(ctx context.Context, userId int64
 	return r0, r1
 }
 
+// GetCategoryByID provides a mock function with given fields: ctx, id
+func (_m *MockRepository) GetCategoryByID(ctx context.Context, id int64) (*entity.Categories, error) {
+	ret := _m.Called(ctx, id)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetCategoryByID")
+	}
+
+	var r0 *entity.Categories
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, int64) (*entity.Categories, error)); ok {
+		return rf(ctx, id)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, int64) *entity.Categories); ok {
+		r0 = rf(ctx, id)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.Categories)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, int64) error); ok {
+		r1 = rf(ctx, id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetCategoryByName provides a mock function with given fields: ctx, name
+func (_m *MockRepository) GetCategoryByName(ctx context.Context, name string) (*entity.Categories, error) {
+	ret := _m.Called(ctx, name)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetCategoryByName")
+	}
+
+	var r0 *entity.Categories
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, string) (*entity.Categories, error)); ok {
+		return rf(ctx, name)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, string) *entity.Categories); ok {
+		r0 = rf(ctx, name)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.Categories)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = rf(ctx, name)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetUserByEmail provides a mock function with given fields: ctx, email
 func (_m *MockRepository) GetUserByEmail(ctx context.Context, email string) (*entity.User, error) {
 	ret := _m.Called(ctx, email)
@@ -108,6 +168,24 @@ func (_m *MockRepository) GetUserByEmail(ctx context.Context, email string) (*en
 	}
 
 	return r0, r1
+}
+
+// InsertCategory provides a mock function with given fields: ctx, name, description, parentID
+func (_m *MockRepository) InsertCategory(ctx context.Context, name string, description string, parentID int64) error {
+	ret := _m.Called(ctx, name, description, parentID)
+
+	if len(ret) == 0 {
+		panic("no return value specified for InsertCategory")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, string, string, int64) error); ok {
+		r0 = rf(ctx, name, description, parentID)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
 }
 
 // SaveAddress provides a mock function with given fields: ctx, userId, addressType, address, city, state, country, zipCode
@@ -157,6 +235,24 @@ func (_m *MockRepository) UpdateAddressByID(ctx context.Context, id int64, addre
 	var r0 error
 	if rf, ok := ret.Get(0).(func(context.Context, int64, string, string, string, string, string, string) error); ok {
 		r0 = rf(ctx, id, addressType, address, city, state, country, zipCode)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// UpdateCategoryByID provides a mock function with given fields: ctx, id, name, description, parentID
+func (_m *MockRepository) UpdateCategoryByID(ctx context.Context, id int64, name string, description string, parentID int64) error {
+	ret := _m.Called(ctx, id, name, description, parentID)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateCategoryByID")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, int64, string, string, int64) error); ok {
+		r0 = rf(ctx, id, name, description, parentID)
 	} else {
 		r0 = ret.Error(0)
 	}
