@@ -7,9 +7,8 @@ import (
 
 func SignedLoginToken(u *model.User) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"email":     u.Email,
-		"firstName": u.FirstName,
-		"lastName":  u.LastName,
+		"email": u.Email,
+		"role":  u.Role,
 	})
 	return token.SignedString([]byte(key))
 }

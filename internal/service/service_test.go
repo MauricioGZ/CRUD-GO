@@ -10,8 +10,11 @@ import (
 	mock "github.com/stretchr/testify/mock"
 )
 
+type MockCache struct{}
+
 var repo *repository.MockRepository
 var s Service
+var mc MockCache
 
 func TestMain(m *testing.M) {
 	validPassword, _ := encryption.Encrypt([]byte("validpassword"))
@@ -27,8 +30,9 @@ func TestMain(m *testing.M) {
 		ID:       validID,
 		Email:    "email@existinguser.com",
 		Password: encryptedPassword,
+		RoleID:   3,
 	}, nil)
-	repo.On("SaveUser", mock.Anything, mock.Anything, mock.Anything, mock.Anything, mock.Anything).Return(nil)
+	repo.On("InsertUser", mock.Anything, mock.Anything, mock.Anything, mock.Anything, mock.Anything, mock.Anything).Return(nil)
 	//address repo mocks
 	repo.On("SaveAddress", mock.Anything, validID, mock.Anything, mock.Anything, mock.Anything, mock.Anything, mock.Anything, mock.Anything).Return(nil)
 	repo.On("GetAddressesByUserId", mock.Anything, validID).Return([]entity.Address{{Address: mock.Anything}, {Address: mock.Anything}}, nil)
@@ -41,7 +45,17 @@ func TestMain(m *testing.M) {
 	repo.On("GetCategoryByID", mock.Anything, mock.Anything).Return(&entity.Categories{Name: "Existing Category"}, nil)
 
 	s = New(repo)
+	mc.GetAllPermissionsRoles()
+	mc.GetAllRoles()
 
 	code := m.Run()
 	os.Exit(code)
+}
+
+func (mc *MockCache) GetAllPermissionsRoles() {
+	rolesPermissions["Customer"] = append(rolesPermissions["Customer"], "Read")
+}
+
+func (mc *MockCache) GetAllRoles() {
+	roleIDs["Customer"] = 3
 }

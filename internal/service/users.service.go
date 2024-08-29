@@ -9,11 +9,13 @@ import (
 )
 
 var (
-	ErrUserAlreadyExists  = errors.New("user already exists")
-	ErrInvalidCredentials = errors.New("invalid credentials")
+	ErrUserAlreadyExists   = errors.New("user already exists")
+	ErrInvalidCredentials  = errors.New("invalid credentials")
+	ErrRolesNotInitialized = errors.New("roles not initialized")
 )
 
-func (s *serv) RegisterUser(ctx context.Context, firstName, lastName, email, password string) error {
+func (s *serv) RegisterUser(ctx context.Context, firstName, lastName, email, password, role string) error {
+	var roleID int64
 	user, err := s.repo.GetUserByEmail(ctx, email)
 
 	if user != nil {
@@ -23,6 +25,11 @@ func (s *serv) RegisterUser(ctx context.Context, firstName, lastName, email, pas
 		return ErrUserAlreadyExists
 	}
 
+	roleID = getRoleID(role)
+	if roleID == 0 {
+		return ErrRolesNotInitialized
+	}
+
 	bb, err := encryption.Encrypt([]byte(password))
 	if err != nil {
 		return err
@@ -30,12 +37,13 @@ func (s *serv) RegisterUser(ctx context.Context, firstName, lastName, email, pas
 
 	encryptedPassword := encryption.ToBase64(bb)
 
-	err = s.repo.SaveUser(
+	err = s.repo.InsertUser(
 		ctx,
 		firstName,
 		lastName,
 		email,
 		encryptedPassword,
+		roleID,
 	)
 
 	return err
@@ -43,8 +51,11 @@ func (s *serv) RegisterUser(ctx context.Context, firstName, lastName, email, pas
 
 func (s *serv) LoginUser(ctx context.Context, email, password string) (*model.User, error) {
 	user, err := s.repo.GetUserByEmail(ctx, email)
-	if err != nil {
-		return nil, err
+	if user == nil {
+		if err != nil {
+			return nil, err
+		}
+		return nil, ErrInvalidCredentials
 	}
 
 	bb, err := encryption.FromBase64(user.Password)
@@ -61,10 +72,17 @@ func (s *serv) LoginUser(ctx context.Context, email, password string) (*model.Us
 		return nil, ErrInvalidCredentials
 	}
 
+	role := getRole(user.RoleID)
+
+	if role == "" {
+		return nil, ErrRolesNotInitialized
+	}
+
 	return &model.User{
 		ID:        user.ID,
 		FirstName: user.FirstName,
 		LastName:  user.LastName,
 		Email:     user.Email,
+		Role:      role,
 	}, nil
 }

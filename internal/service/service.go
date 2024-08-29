@@ -9,7 +9,7 @@ import (
 
 type Service interface {
 	//user services
-	RegisterUser(ctx context.Context, firstName, lastName, email, password string) error
+	RegisterUser(ctx context.Context, firstName, lastName, email, password, role string) error
 	LoginUser(ctx context.Context, email, password string) (*model.User, error)
 	//address services
 	RegisterAddress(ctx context.Context, email, addressType, address, city, state, country, zipCode string) error
@@ -19,6 +19,11 @@ type Service interface {
 	//cateogires services
 	RegisterCategory(ctx context.Context, name, description string, parentID int64) error
 	GetAllCategories(ctx context.Context) ([]model.Categories, error)
+	//products services
+	RegisterProduct(ctx context.Context, name, description string, price float32, stock, categoryId int64, image string) error
+	//permissions roles services
+	GetAllPermissionsRoles(ctx context.Context) error
+	GetAllRoles(ctx context.Context) error
 }
 
 type serv struct {

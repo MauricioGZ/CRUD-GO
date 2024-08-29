@@ -12,7 +12,7 @@ import (
 //go:generate mockery --name=Repository --output=repository --inpackage
 type Repository interface {
 	//user interfaces
-	SaveUser(ctx context.Context, firstName, lastName, email, password string) error
+	InsertUser(ctx context.Context, firstName, lastName, email, password string, roleID int64) error
 	GetUserByEmail(ctx context.Context, email string) (*entity.User, error)
 	DeleteUserByEmail(ctx context.Context, email string) error
 	//address interfaces
@@ -26,6 +26,11 @@ type Repository interface {
 	GetCategoryByID(ctx context.Context, id int64) (*entity.Categories, error)
 	GetCategoryByName(ctx context.Context, name string) (*entity.Categories, error)
 	UpdateCategoryByID(ctx context.Context, id int64, name, description string, parentID int64) error
+	//products interfaces
+	InsertProduct(ctx context.Context, name, description string, price float32, stock, categoryId int64, image string) error
+	//permissions roles interfaces
+	GetAllPermissionsRoles(ctx context.Context) ([]entity.PermissionRoles, error)
+	GetAllRoles(ctx context.Context) ([]entity.Role, error)
 }
 
 type repo struct {

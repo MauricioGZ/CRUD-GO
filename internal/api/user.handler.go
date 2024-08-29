@@ -23,9 +23,13 @@ func (a *API) RegisterUser(c echo.Context) error {
 		uParams.LastName,
 		uParams.Email,
 		uParams.Password,
+		"Customer",
 	); err != nil {
 		if err == service.ErrUserAlreadyExists {
 			return c.JSON(http.StatusBadRequest, responseMessage{Message: "user already exists"})
+		}
+		if err == service.ErrRolesNotInitialized {
+			return c.JSON(http.StatusInternalServerError, responseMessage{Message: service.ErrRolesNotInitialized.Error()})
 		}
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: "invalid request"})
 	}
@@ -40,13 +44,16 @@ func (a *API) LoginUser(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: "invalid request"})
 	}
 
-	u, err := a.serv.LoginUser(ctx, uParams.Email, uParams.Password)
+	user, err := a.serv.LoginUser(ctx, uParams.Email, uParams.Password)
 
 	if err != nil {
+		if err == service.ErrInvalidCredentials {
+			return c.JSON(http.StatusBadRequest, responseMessage{Message: service.ErrInvalidCredentials.Error()})
+		}
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "internal server error"})
 	}
 
-	token, err := encryption.SignedLoginToken(u)
+	token, err := encryption.SignedLoginToken(user)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "intertnal server error"})
 	}
@@ -61,7 +68,7 @@ func (a *API) LoginUser(c echo.Context) error {
 	}
 	c.SetCookie(cookie)
 
-	return c.JSON(http.StatusOK, u)
+	return c.JSON(http.StatusOK, user)
 }
 
 func validateUser(c echo.Context) (string, error) {

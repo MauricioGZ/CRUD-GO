@@ -12,6 +12,7 @@ func TestRegisterUser(t *testing.T) {
 		LastName      string
 		Email         string
 		Password      string
+		Role          string
 		ExpectedError error
 	}{
 		{
@@ -20,6 +21,7 @@ func TestRegisterUser(t *testing.T) {
 			LastName:      "Validsurname",
 			Email:         "email@doesntexist.com",
 			Password:      "validpassword",
+			Role:          "Customer",
 			ExpectedError: nil,
 		},
 		{
@@ -28,6 +30,7 @@ func TestRegisterUser(t *testing.T) {
 			LastName:      "Validsurname",
 			Email:         "email@existinguser.com",
 			Password:      "validpassword",
+			Role:          "Customer",
 			ExpectedError: ErrUserAlreadyExists,
 		},
 	}
@@ -41,7 +44,7 @@ func TestRegisterUser(t *testing.T) {
 			t.Parallel()
 			repo.Mock.Test(t)
 
-			err := s.RegisterUser(ctx, tc.FirstName, tc.LastName, tc.Email, tc.Password)
+			err := s.RegisterUser(ctx, tc.FirstName, tc.LastName, tc.Email, tc.Password, tc.Role)
 			if err != tc.ExpectedError {
 				t.Errorf("Expected error %v, got %v", tc.ExpectedError, err)
 			}

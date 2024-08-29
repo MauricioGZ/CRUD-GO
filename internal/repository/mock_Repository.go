@@ -110,6 +110,66 @@ func (_m *MockRepository) GetAllCategories(ctx context.Context) ([]entity.Catego
 	return r0, r1
 }
 
+// GetAllPermissionsRoles provides a mock function with given fields: ctx
+func (_m *MockRepository) GetAllPermissionsRoles(ctx context.Context) ([]entity.PermissionRoles, error) {
+	ret := _m.Called(ctx)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetAllPermissionsRoles")
+	}
+
+	var r0 []entity.PermissionRoles
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context) ([]entity.PermissionRoles, error)); ok {
+		return rf(ctx)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context) []entity.PermissionRoles); ok {
+		r0 = rf(ctx)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]entity.PermissionRoles)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
+		r1 = rf(ctx)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetAllRoles provides a mock function with given fields: ctx
+func (_m *MockRepository) GetAllRoles(ctx context.Context) ([]entity.Role, error) {
+	ret := _m.Called(ctx)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetAllRoles")
+	}
+
+	var r0 []entity.Role
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context) ([]entity.Role, error)); ok {
+		return rf(ctx)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context) []entity.Role); ok {
+		r0 = rf(ctx)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]entity.Role)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
+		r1 = rf(ctx)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetCategoryByID provides a mock function with given fields: ctx, id
 func (_m *MockRepository) GetCategoryByID(ctx context.Context, id int64) (*entity.Categories, error) {
 	ret := _m.Called(ctx, id)
@@ -218,6 +278,42 @@ func (_m *MockRepository) InsertCategory(ctx context.Context, name string, descr
 	return r0
 }
 
+// InsertProduct provides a mock function with given fields: ctx, name, description, price, stock, categoryId, image
+func (_m *MockRepository) InsertProduct(ctx context.Context, name string, description string, price float32, stock int64, categoryId int64, image string) error {
+	ret := _m.Called(ctx, name, description, price, stock, categoryId, image)
+
+	if len(ret) == 0 {
+		panic("no return value specified for InsertProduct")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, string, string, float32, int64, int64, string) error); ok {
+		r0 = rf(ctx, name, description, price, stock, categoryId, image)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// InsertUser provides a mock function with given fields: ctx, firstName, lastName, email, password, roleID
+func (_m *MockRepository) InsertUser(ctx context.Context, firstName string, lastName string, email string, password string, roleID int64) error {
+	ret := _m.Called(ctx, firstName, lastName, email, password, roleID)
+
+	if len(ret) == 0 {
+		panic("no return value specified for InsertUser")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, string, string, string, string, int64) error); ok {
+		r0 = rf(ctx, firstName, lastName, email, password, roleID)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // SaveAddress provides a mock function with given fields: ctx, userId, addressType, address, city, state, country, zipCode
 func (_m *MockRepository) SaveAddress(ctx context.Context, userId int64, addressType string, address string, city string, state string, country string, zipCode string) error {
 	ret := _m.Called(ctx, userId, addressType, address, city, state, country, zipCode)
@@ -229,24 +325,6 @@ func (_m *MockRepository) SaveAddress(ctx context.Context, userId int64, address
 	var r0 error
 	if rf, ok := ret.Get(0).(func(context.Context, int64, string, string, string, string, string, string) error); ok {
 		r0 = rf(ctx, userId, addressType, address, city, state, country, zipCode)
-	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
-}
-
-// SaveUser provides a mock function with given fields: ctx, firstName, lastName, email, password
-func (_m *MockRepository) SaveUser(ctx context.Context, firstName string, lastName string, email string, password string) error {
-	ret := _m.Called(ctx, firstName, lastName, email, password)
-
-	if len(ret) == 0 {
-		panic("no return value specified for SaveUser")
-	}
-
-	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, string, string, string, string) error); ok {
-		r0 = rf(ctx, firstName, lastName, email, password)
 	} else {
 		r0 = ret.Error(0)
 	}

@@ -24,6 +24,7 @@ const (
 													lastName, 
 													email,
 													password,
+													roleId,
 													createdAt
 												from USERS
 												where email = ?;`
@@ -31,13 +32,7 @@ const (
 													where email = ?;`
 )
 
-const (
-	AdminRole    int64 = 1
-	SellerRole   int64 = 2
-	CustomerRole int64 = 3
-)
-
-func (r *repo) SaveUser(ctx context.Context, firstName, lastName, email, password string) error {
+func (r *repo) InsertUser(ctx context.Context, firstName, lastName, email, password string, roleID int64) error {
 	_, err := r.db.ExecContext(
 		ctx,
 		qryInsertUser,
@@ -45,7 +40,7 @@ func (r *repo) SaveUser(ctx context.Context, firstName, lastName, email, passwor
 		lastName,
 		email,
 		password,
-		CustomerRole,
+		roleID,
 		time.Now().UTC(),
 	)
 
@@ -64,6 +59,7 @@ func (r *repo) GetUserByEmail(ctx context.Context, email string) (*entity.User, 
 		&user.LastName,
 		&user.Email,
 		&user.Password,
+		&user.RoleID,
 		&user.CreatedAt,
 	)
 

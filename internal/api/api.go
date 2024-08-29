@@ -1,6 +1,7 @@
 package api
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/MauricioGZ/CRUD-GO/internal/service"
@@ -22,6 +23,18 @@ func New(_serv service.Service) *API {
 }
 
 func (a *API) Start(e *echo.Echo, address string) error {
+	ctx := context.Background()
+
+	err := a.serv.GetAllPermissionsRoles(ctx)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	err = a.serv.GetAllRoles(ctx)
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	a.RegisterRoutes(e)
 	return e.Start((fmt.Sprintf(":%s", address)))
 }
