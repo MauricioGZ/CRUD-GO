@@ -9,9 +9,8 @@ import (
 )
 
 var (
-	ErrUserAlreadyExists   = errors.New("user already exists")
-	ErrInvalidCredentials  = errors.New("invalid credentials")
-	ErrRolesNotInitialized = errors.New("roles not initialized")
+	ErrUserAlreadyExists  = errors.New("user already exists")
+	ErrInvalidCredentials = errors.New("invalid credentials")
 )
 
 func (s *serv) RegisterUser(ctx context.Context, firstName, lastName, email, password, role string) error {

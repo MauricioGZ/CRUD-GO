@@ -33,6 +33,15 @@ func TestRegisterUser(t *testing.T) {
 			Role:          "Customer",
 			ExpectedError: ErrUserAlreadyExists,
 		},
+		{
+			Name:          "RegisterUser: Invalid role",
+			FirstName:     "Validname",
+			LastName:      "Validsurname",
+			Email:         "email@doesntexist.com",
+			Password:      "validpassword",
+			Role:          "",
+			ExpectedError: ErrRolesNotInitialized,
+		},
 	}
 
 	ctx := context.Background()
@@ -66,8 +75,14 @@ func TestLoginUser(t *testing.T) {
 			ExpectedError: nil,
 		},
 		{
-			Name:          "LoginUser: Success",
+			Name:          "LoginUser: Invalid password",
 			Email:         "email@existinguser.com",
+			Password:      "invalidpassword",
+			ExpectedError: ErrInvalidCredentials,
+		},
+		{
+			Name:          "LoginUser: User does not exist",
+			Email:         "email@doesntexist.com",
 			Password:      "invalidpassword",
 			ExpectedError: ErrInvalidCredentials,
 		},

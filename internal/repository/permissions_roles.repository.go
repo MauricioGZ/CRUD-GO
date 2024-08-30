@@ -35,10 +35,15 @@ func (r *repo) GetAllPermissionsRoles(ctx context.Context) ([]entity.PermissionR
 	}
 
 	for rows.Next() {
-		rows.Scan(
+		err = rows.Scan(
 			&permissionRole.Role,
 			&permissionRole.Permission,
 		)
+
+		if err != nil {
+			return nil, err
+		}
+
 		permissionsRoles = append(permissionsRoles, permissionRole)
 	}
 
@@ -63,6 +68,11 @@ func (r *repo) GetAllRoles(ctx context.Context) ([]entity.Role, error) {
 			&role.ID,
 			&role.Role,
 		)
+
+		if err != nil {
+			return nil, err
+		}
+
 		roles = append(roles, role)
 	}
 

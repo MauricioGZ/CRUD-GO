@@ -10,7 +10,7 @@ import (
 func (a *API) AddAddress(c echo.Context) error {
 	ctx := c.Request().Context()
 	aParams := dtos.RegisterAddress{}
-	email, err := validateUser(c)
+	email, _, err := validateUser(c)
 
 	if err != nil {
 		return c.JSON(http.StatusUnauthorized, responseMessage{Message: "unauthorized"})
@@ -41,7 +41,7 @@ func (a *API) AddAddress(c echo.Context) error {
 func (a *API) UpdateAddress(c echo.Context) error {
 	ctx := c.Request().Context()
 	aParams := dtos.UpdateAddress{}
-	_, err := validateUser(c)
+	_, _, err := validateUser(c)
 
 	if err != nil {
 		return c.JSON(http.StatusUnauthorized, responseMessage{Message: "unauthorized"})
@@ -71,7 +71,7 @@ func (a *API) UpdateAddress(c echo.Context) error {
 
 func (a *API) GetAddresses(c echo.Context) error {
 	ctx := c.Request().Context()
-	email, err := validateUser(c)
+	email, _, err := validateUser(c)
 
 	if err != nil {
 		return c.JSON(http.StatusUnauthorized, responseMessage{Message: "unauthorized"})
@@ -88,7 +88,7 @@ func (a *API) GetAddresses(c echo.Context) error {
 func (a *API) DeleteAddress(c echo.Context) error {
 	ctx := c.Request().Context()
 	aParams := dtos.DeleteAddress{}
-	_, err := validateUser(c)
+	_, _, err := validateUser(c)
 
 	if err != nil {
 		return c.JSON(http.StatusUnauthorized, responseMessage{Message: "unauthorized"})

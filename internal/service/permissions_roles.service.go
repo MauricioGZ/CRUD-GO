@@ -1,6 +1,13 @@
 package service
 
-import "context"
+import (
+	"context"
+	"errors"
+)
+
+var (
+	ErrRolesNotInitialized = errors.New("roles not initialized")
+)
 
 // emulating a cache
 var rolesPermissions map[string][]string = make(map[string][]string)
@@ -37,6 +44,33 @@ func getPermissions(role string) []string {
 		return nil
 	}
 	return rolesPermissions[role]
+}
+
+func mayCreate(role string) bool {
+	for _, p := range getPermissions(role) {
+		if p == "Create" {
+			return true
+		}
+	}
+	return false
+}
+
+func mayUpdate(role string) bool {
+	for _, p := range getPermissions(role) {
+		if p == "Update" {
+			return true
+		}
+	}
+	return false
+}
+
+func mayDelete(role string) bool {
+	for _, p := range getPermissions(role) {
+		if p == "Delete" {
+			return true
+		}
+	}
+	return false
 }
 
 func getRoleID(role string) int64 {

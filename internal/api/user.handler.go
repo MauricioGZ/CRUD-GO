@@ -71,16 +71,16 @@ func (a *API) LoginUser(c echo.Context) error {
 	return c.JSON(http.StatusOK, user)
 }
 
-func validateUser(c echo.Context) (string, error) {
+func validateUser(c echo.Context) (string, string, error) {
 	cookie, err := c.Cookie("Authorization")
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 
 	claims, err := encryption.ParseLoginJWT(cookie.Value)
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 
-	return claims["email"].(string), nil
+	return claims["email"].(string), claims["role"].(string), nil
 }

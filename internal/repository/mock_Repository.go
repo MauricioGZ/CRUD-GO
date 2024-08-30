@@ -32,6 +32,24 @@ func (_m *MockRepository) DeleteAddressByID(ctx context.Context, id int64) error
 	return r0
 }
 
+// DeleteProductByID provides a mock function with given fields: ctx, id
+func (_m *MockRepository) DeleteProductByID(ctx context.Context, id int64) error {
+	ret := _m.Called(ctx, id)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteProductByID")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, int64) error); ok {
+		r0 = rf(ctx, id)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // DeleteUserByEmail provides a mock function with given fields: ctx, email
 func (_m *MockRepository) DeleteUserByEmail(ctx context.Context, email string) error {
 	ret := _m.Called(ctx, email)
@@ -140,6 +158,36 @@ func (_m *MockRepository) GetAllPermissionsRoles(ctx context.Context) ([]entity.
 	return r0, r1
 }
 
+// GetAllProducts provides a mock function with given fields: ctx
+func (_m *MockRepository) GetAllProducts(ctx context.Context) ([]entity.Product, error) {
+	ret := _m.Called(ctx)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetAllProducts")
+	}
+
+	var r0 []entity.Product
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context) ([]entity.Product, error)); ok {
+		return rf(ctx)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context) []entity.Product); ok {
+		r0 = rf(ctx)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]entity.Product)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
+		r1 = rf(ctx)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetAllRoles provides a mock function with given fields: ctx
 func (_m *MockRepository) GetAllRoles(ctx context.Context) ([]entity.Role, error) {
 	ret := _m.Called(ctx)
@@ -223,6 +271,66 @@ func (_m *MockRepository) GetCategoryByName(ctx context.Context, name string) (*
 
 	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
 		r1 = rf(ctx, name)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetProductByID provides a mock function with given fields: ctx, id
+func (_m *MockRepository) GetProductByID(ctx context.Context, id int64) (*entity.Product, error) {
+	ret := _m.Called(ctx, id)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetProductByID")
+	}
+
+	var r0 *entity.Product
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, int64) (*entity.Product, error)); ok {
+		return rf(ctx, id)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, int64) *entity.Product); ok {
+		r0 = rf(ctx, id)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.Product)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, int64) error); ok {
+		r1 = rf(ctx, id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetProductsByCategoryID provides a mock function with given fields: ctx, categoryID
+func (_m *MockRepository) GetProductsByCategoryID(ctx context.Context, categoryID int64) ([]entity.Product, error) {
+	ret := _m.Called(ctx, categoryID)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetProductsByCategoryID")
+	}
+
+	var r0 []entity.Product
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, int64) ([]entity.Product, error)); ok {
+		return rf(ctx, categoryID)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, int64) []entity.Product); ok {
+		r0 = rf(ctx, categoryID)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]entity.Product)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, int64) error); ok {
+		r1 = rf(ctx, categoryID)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -361,6 +469,24 @@ func (_m *MockRepository) UpdateCategoryByID(ctx context.Context, id int64, name
 	var r0 error
 	if rf, ok := ret.Get(0).(func(context.Context, int64, string, string, int64) error); ok {
 		r0 = rf(ctx, id, name, description, parentID)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// UpdateProduct provides a mock function with given fields: ctx, name, description, price, stock, categoryId, image, id
+func (_m *MockRepository) UpdateProduct(ctx context.Context, name string, description string, price float32, stock int64, categoryId int64, image string, id int64) error {
+	ret := _m.Called(ctx, name, description, price, stock, categoryId, image, id)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateProduct")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, string, string, float32, int64, int64, string, int64) error); ok {
+		r0 = rf(ctx, name, description, price, stock, categoryId, image, id)
 	} else {
 		r0 = ret.Error(0)
 	}

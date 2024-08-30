@@ -8,3 +8,11 @@ type RegisterProduct struct {
 	CategoryID  int64   `json:"category_id"`
 	Image       string  `json:"image"`
 }
+
+type GetProductByID struct {
+	ID int64 `param:"id"`
+}
+
+type GetProductByCategory struct {
+	CategoryName string `query:"categoryName"`
+}

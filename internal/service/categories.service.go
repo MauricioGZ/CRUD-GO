@@ -11,6 +11,7 @@ import (
 var (
 	ErrCategoryAlreadyExists      = errors.New("category already exists")
 	ErrParentCategoryDoesNotExist = errors.New("parent category does not exist")
+	ErrCategoryDoesNotExist       = errors.New("category does not exist")
 )
 
 func (s *serv) RegisterCategory(ctx context.Context, name, description string, parentID int64) error {

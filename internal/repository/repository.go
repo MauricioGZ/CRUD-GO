@@ -28,6 +28,11 @@ type Repository interface {
 	UpdateCategoryByID(ctx context.Context, id int64, name, description string, parentID int64) error
 	//products interfaces
 	InsertProduct(ctx context.Context, name, description string, price float32, stock, categoryId int64, image string) error
+	GetAllProducts(ctx context.Context) ([]entity.Product, error)
+	GetProductByID(ctx context.Context, id int64) (*entity.Product, error)
+	GetProductsByCategoryID(ctx context.Context, categoryID int64) ([]entity.Product, error)
+	UpdateProduct(ctx context.Context, name, description string, price float32, stock, categoryId int64, image string, id int64) error
+	DeleteProductByID(ctx context.Context, id int64) error
 	//permissions roles interfaces
 	GetAllPermissionsRoles(ctx context.Context) ([]entity.PermissionRoles, error)
 	GetAllRoles(ctx context.Context) ([]entity.Role, error)

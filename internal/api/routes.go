@@ -13,13 +13,15 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	user.POST("/register", a.RegisterUser)
 	user.GET("/login", a.LoginUser)
 
-	address.GET("/", a.GetAddresses)
+	address.GET("", a.GetAddresses)
 	address.POST("/register", a.AddAddress)
-	address.POST("/update", a.UpdateAddress)
+	address.PATCH("/update", a.UpdateAddress)
 	address.DELETE("/delete/:id", a.DeleteAddress)
 
 	categories.POST("/register", a.RegisterCategory)
 	categories.GET("/", a.GetAllCategories)
 
 	products.POST("/add", a.AddProduct)
+	products.GET("", a.GetAllProducts)
+	products.GET("/:id", a.GetProductByID)
 }

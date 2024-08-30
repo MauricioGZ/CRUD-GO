@@ -10,11 +10,11 @@ import (
 	mock "github.com/stretchr/testify/mock"
 )
 
-type MockCache struct{}
+type mockCache struct{}
 
 var repo *repository.MockRepository
 var s Service
-var mc MockCache
+var mc mockCache
 
 func TestMain(m *testing.M) {
 	validPassword, _ := encryption.Encrypt([]byte("validpassword"))
@@ -52,10 +52,10 @@ func TestMain(m *testing.M) {
 	os.Exit(code)
 }
 
-func (mc *MockCache) GetAllPermissionsRoles() {
+func (mc *mockCache) GetAllPermissionsRoles() {
 	rolesPermissions["Customer"] = append(rolesPermissions["Customer"], "Read")
 }
 
-func (mc *MockCache) GetAllRoles() {
+func (mc *mockCache) GetAllRoles() {
 	roleIDs["Customer"] = 3
 }
