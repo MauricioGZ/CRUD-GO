@@ -143,14 +143,33 @@ func (s *serv) UpdateProduct(ctx context.Context, role, name, description string
 		return ErrProductDoesNotExist
 	}
 
+	if name != "" {
+		p.Name = name
+	}
+	if description != "" {
+		p.Description = description
+	}
+	if price > 0.0 {
+		p.Price = price
+	}
+	if stock > 0 {
+		p.Stock = stock
+	}
+	if categoryId > 0 {
+		p.CategoryID = categoryId
+	}
+	if image != "" {
+		p.Image = image
+	}
+
 	err = s.repo.UpdateProduct(
 		ctx,
-		name,
-		description,
-		price,
-		stock,
-		categoryId,
-		image,
+		p.Name,
+		p.Description,
+		p.Price,
+		p.Stock,
+		p.CategoryID,
+		p.Image,
 		id,
 	)
 

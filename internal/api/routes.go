@@ -24,4 +24,6 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	products.POST("/add", a.AddProduct)
 	products.GET("", a.GetAllProducts)
 	products.GET("/:id", a.GetProductByID)
+	products.PATCH("/:id", a.UpdateProductByID)
+	products.DELETE("/:id", a.DeleteProductByID)
 }

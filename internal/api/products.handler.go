@@ -95,3 +95,69 @@ func (a *API) GetProductByID(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, product)
 }
+
+func (a *API) UpdateProductByID(c echo.Context) error {
+	ctx := c.Request().Context()
+	pParams := dtos.UpdateProductByID{}
+	_, role, err := validateUser(c)
+
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, responseMessage{Message: "unauthorized"})
+	}
+
+	if err := c.Bind(&pParams); err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "invalid request"})
+	}
+
+	err = a.serv.UpdateProduct(
+		ctx,
+		role,
+		pParams.Name,
+		pParams.Description,
+		pParams.Price,
+		pParams.Stock,
+		pParams.CategoryID,
+		pParams.Image,
+		pParams.ID,
+	)
+
+	if err != nil {
+		if err == service.ErrInvalidPermissions {
+			return c.JSON(http.StatusUnauthorized, responseMessage{Message: service.ErrInvalidPermissions.Error()})
+		}
+		if err == service.ErrProductDoesNotExist {
+			return c.JSON(http.StatusBadRequest, responseMessage{Message: service.ErrProductDoesNotExist.Error()})
+		}
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "internal server error"})
+	}
+
+	return c.JSON(http.StatusOK, responseMessage{Message: "updated"})
+}
+
+func (a *API) DeleteProductByID(c echo.Context) error {
+	ctx := c.Request().Context()
+	pParams := dtos.DeleteProductByID{}
+	_, role, err := validateUser(c)
+
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, responseMessage{Message: "unauthorized"})
+	}
+
+	if err := c.Bind(&pParams); err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "invalid request"})
+	}
+
+	err = a.serv.DeleteProductByID(ctx, role, pParams.ID)
+
+	if err != nil {
+		if err == service.ErrInvalidPermissions {
+			return c.JSON(http.StatusUnauthorized, responseMessage{Message: service.ErrInvalidPermissions.Error()})
+		}
+		if err == service.ErrProductDoesNotExist {
+			return c.JSON(http.StatusBadRequest, responseMessage{Message: service.ErrProductDoesNotExist.Error()})
+		}
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "internal server error"})
+	}
+
+	return c.JSON(http.StatusOK, responseMessage{Message: "deleted"})
+}
