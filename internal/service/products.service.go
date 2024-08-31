@@ -77,10 +77,6 @@ func (s *serv) GetProductByID(ctx context.Context, id int64) (*model.Product, er
 		return nil, ErrProductDoesNotExist
 	}
 
-	if err != nil {
-		return nil, err
-	}
-
 	product := model.Product{
 		ID:          p.ID,
 		Name:        p.Name,
