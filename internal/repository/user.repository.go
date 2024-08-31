@@ -16,7 +16,7 @@ const (
 											password,
 											roleId,
 											createdAt
-											)
+										)
 										values (?,?,?,?,?,?);`
 	qryGetUserByEmail = `	select 
 													id, 
