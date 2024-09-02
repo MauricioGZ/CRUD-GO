@@ -34,12 +34,12 @@ const (
 													where userId = ?;`
 )
 
-func (r *repo) InsertOrder(ctx context.Context, userID int64, orderDate time.Time, status string, totalPrice float64) error {
+func (r *repo) InsertOrder(ctx context.Context, userID int64, status string, totalPrice float32) error {
 	_, err := r.db.ExecContext(
 		ctx,
 		qryInsertOrder,
 		userID,
-		orderDate,
+		time.Now().UTC(),
 		status,
 		totalPrice,
 	)
@@ -71,18 +71,13 @@ func (r *repo) GetOrderByID(ctx context.Context, id int64) (*entity.Order, error
 	return &order, nil
 }
 
-func (r *repo) GetOrderByUserID(ctx context.Context, userID int64) (*entity.Order, error) {
+func (r *repo) GetOrdersByUserID(ctx context.Context, userID int64) ([]entity.Order, error) {
 	var order entity.Order
-	err := r.db.QueryRowContext(
+	var orders []entity.Order
+	rows, err := r.db.QueryContext(
 		ctx,
 		qryGetOrderByUserID,
 		userID,
-	).Scan(
-		&order.ID,
-		&order.UserID,
-		&order.OrderDate,
-		&order.Status,
-		&order.TotalPrice,
 	)
 
 	if err != nil {
@@ -92,5 +87,21 @@ func (r *repo) GetOrderByUserID(ctx context.Context, userID int64) (*entity.Orde
 		return nil, err
 	}
 
-	return &order, nil
+	for rows.Next() {
+		err = rows.Scan(
+			&order.ID,
+			&order.UserID,
+			&order.OrderDate,
+			&order.Status,
+			&order.TotalPrice,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		orders = append(orders, order)
+	}
+
+	return orders, nil
 }

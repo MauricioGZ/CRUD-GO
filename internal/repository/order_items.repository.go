@@ -35,6 +35,18 @@ const (
 	qryDeleteOrderItemByID = `	delete 
 															from ORDER_ITEMS
 															where id = ?;`
+	qryGetOrderItemsByUserID = `select
+																ORDERS.id,
+																ORDERS.orderDate,
+																ORDERS.status,
+																ORDERS.totalPrice,
+																ORDER_ITEMS.id,
+																ORDER_ITEMS.productId,
+																ORDER_ITEMS.quantity,
+																ORDER_ITEMS.price
+															from ORDERS
+															join ORDER_ITEMS on ORDERS.id = ORDER_ITEMS.orderId
+															where ORDERS.userId = ?;`
 )
 
 func (r *repo) InsertOrderItem(ctx context.Context, orderID, productID, quantity int64, price float32) error {
@@ -102,4 +114,43 @@ func (r *repo) DeleteOrderItemByID(ctx context.Context, id int64) error {
 		id,
 	)
 	return err
+}
+
+func (r *repo) GetOrderItemsByUserID(ctx context.Context, userID int64) ([]entity.OrderItemByUserID, error) {
+	var orderItem entity.OrderItemByUserID
+	var orderItems []entity.OrderItemByUserID
+
+	rows, err := r.db.QueryContext(
+		ctx,
+		qryGetOrderItemsByUserID,
+		userID,
+	)
+
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	for rows.Next() {
+		err = rows.Scan(
+			&orderItem.OrderID,
+			&orderItem.OrderDate,
+			&orderItem.Status,
+			&orderItem.TotalPrice,
+			&orderItem.ID,
+			&orderItem.ProductID,
+			&orderItem.Quantity,
+			&orderItem.Price,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		orderItems = append(orderItems, orderItem)
+	}
+
+	return orderItems, nil
 }

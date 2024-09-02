@@ -38,14 +38,15 @@ type Repository interface {
 	GetAllPermissionsRoles(ctx context.Context) ([]entity.PermissionRoles, error)
 	GetAllRoles(ctx context.Context) ([]entity.Role, error)
 	//orders interfaces
-	InsertOrder(ctx context.Context, userID int64, orderDate time.Time, status string, totalPrice float64) error
+	InsertOrder(ctx context.Context, userID int64, status string, totalPrice float32) error
 	GetOrderByID(ctx context.Context, id int64) (*entity.Order, error)
-	GetOrderByUserID(ctx context.Context, userID int64) (*entity.Order, error)
+	GetOrdersByUserID(ctx context.Context, userID int64) ([]entity.Order, error)
 	//order items interfaces
 	InsertOrderItem(ctx context.Context, orderID, productID, quantity int64, price float32) error
 	GetOrderItemsByOrderId(ctx context.Context, orderID int64) ([]entity.OrderItem, error)
 	DeleteOrderItemsByOrderID(ctx context.Context, orderID int64) error
 	DeleteOrderItemByID(ctx context.Context, id int64) error
+	GetOrderItemsByUserID(ctx context.Context, userID int64) ([]entity.OrderItemByUserID, error)
 	//payments interfaces
 	InsertPayment(ctx context.Context, orderId int64, paymentMethod string, amount float32, paymentDate time.Time, status string) error
 	GetPaymentByID(ctx context.Context, id int64) (*entity.Payment, error)

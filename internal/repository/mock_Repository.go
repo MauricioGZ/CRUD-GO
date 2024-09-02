@@ -346,36 +346,6 @@ func (_m *MockRepository) GetOrderByID(ctx context.Context, id int64) (*entity.O
 	return r0, r1
 }
 
-// GetOrderByUserID provides a mock function with given fields: ctx, userID
-func (_m *MockRepository) GetOrderByUserID(ctx context.Context, userID int64) (*entity.Order, error) {
-	ret := _m.Called(ctx, userID)
-
-	if len(ret) == 0 {
-		panic("no return value specified for GetOrderByUserID")
-	}
-
-	var r0 *entity.Order
-	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, int64) (*entity.Order, error)); ok {
-		return rf(ctx, userID)
-	}
-	if rf, ok := ret.Get(0).(func(context.Context, int64) *entity.Order); ok {
-		r0 = rf(ctx, userID)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*entity.Order)
-		}
-	}
-
-	if rf, ok := ret.Get(1).(func(context.Context, int64) error); ok {
-		r1 = rf(ctx, userID)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
-}
-
 // GetOrderItemsByOrderId provides a mock function with given fields: ctx, orderID
 func (_m *MockRepository) GetOrderItemsByOrderId(ctx context.Context, orderID int64) ([]entity.OrderItem, error) {
 	ret := _m.Called(ctx, orderID)
@@ -399,6 +369,66 @@ func (_m *MockRepository) GetOrderItemsByOrderId(ctx context.Context, orderID in
 
 	if rf, ok := ret.Get(1).(func(context.Context, int64) error); ok {
 		r1 = rf(ctx, orderID)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetOrderItemsByUserID provides a mock function with given fields: ctx, userID
+func (_m *MockRepository) GetOrderItemsByUserID(ctx context.Context, userID int64) ([]entity.OrderItemByUserID, error) {
+	ret := _m.Called(ctx, userID)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetOrderItemsByUserID")
+	}
+
+	var r0 []entity.OrderItemByUserID
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, int64) ([]entity.OrderItemByUserID, error)); ok {
+		return rf(ctx, userID)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, int64) []entity.OrderItemByUserID); ok {
+		r0 = rf(ctx, userID)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]entity.OrderItemByUserID)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, int64) error); ok {
+		r1 = rf(ctx, userID)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetOrdersByUserID provides a mock function with given fields: ctx, userID
+func (_m *MockRepository) GetOrdersByUserID(ctx context.Context, userID int64) ([]entity.Order, error) {
+	ret := _m.Called(ctx, userID)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetOrdersByUserID")
+	}
+
+	var r0 []entity.Order
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, int64) ([]entity.Order, error)); ok {
+		return rf(ctx, userID)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, int64) []entity.Order); ok {
+		r0 = rf(ctx, userID)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]entity.Order)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, int64) error); ok {
+		r1 = rf(ctx, userID)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -574,17 +604,17 @@ func (_m *MockRepository) InsertCategory(ctx context.Context, name string, descr
 	return r0
 }
 
-// InsertOrder provides a mock function with given fields: ctx, userID, orderDate, status, totalPrice
-func (_m *MockRepository) InsertOrder(ctx context.Context, userID int64, orderDate time.Time, status string, totalPrice float64) error {
-	ret := _m.Called(ctx, userID, orderDate, status, totalPrice)
+// InsertOrder provides a mock function with given fields: ctx, userID, status, totalPrice
+func (_m *MockRepository) InsertOrder(ctx context.Context, userID int64, status string, totalPrice float32) error {
+	ret := _m.Called(ctx, userID, status, totalPrice)
 
 	if len(ret) == 0 {
 		panic("no return value specified for InsertOrder")
 	}
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, int64, time.Time, string, float64) error); ok {
-		r0 = rf(ctx, userID, orderDate, status, totalPrice)
+	if rf, ok := ret.Get(0).(func(context.Context, int64, string, float32) error); ok {
+		r0 = rf(ctx, userID, status, totalPrice)
 	} else {
 		r0 = ret.Error(0)
 	}
