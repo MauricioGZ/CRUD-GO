@@ -29,6 +29,8 @@ type Service interface {
 	//permissions roles services
 	GetAllPermissionsRoles(ctx context.Context) error
 	GetAllRoles(ctx context.Context) error
+
+	GetOrderItemsByUser(ctx context.Context, email string) ([]model.OrderItemsByUser, error)
 }
 
 type serv struct {
