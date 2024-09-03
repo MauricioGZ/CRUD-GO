@@ -15,21 +15,21 @@ func TestRegisterCategory(t *testing.T) {
 	}{
 		{
 			Name:          "RegisterCategory: Success",
-			CategoryName:  "New Category",
+			CategoryName:  newCategory,
 			Description:   "Some description",
 			ParentID:      1,
 			ExpectedError: nil,
 		},
 		{
 			Name:          "RegisterCategory: Category dupplicated",
-			CategoryName:  "Existing Category",
+			CategoryName:  existingCategory,
 			Description:   "Some description",
 			ParentID:      1,
 			ExpectedError: ErrCategoryAlreadyExists,
 		},
 		{
 			Name:          "RegisterCategory: Parent id does not exist",
-			CategoryName:  "New Category",
+			CategoryName:  newCategory,
 			Description:   "Some description",
 			ParentID:      100,
 			ExpectedError: ErrParentCategoryDoesNotExist,

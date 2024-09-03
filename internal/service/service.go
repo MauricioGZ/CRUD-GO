@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"time"
 
 	"github.com/MauricioGZ/CRUD-GO/internal/model"
 	"github.com/MauricioGZ/CRUD-GO/internal/repository"
@@ -29,8 +30,15 @@ type Service interface {
 	//permissions roles services
 	GetAllPermissionsRoles(ctx context.Context) error
 	GetAllRoles(ctx context.Context) error
-
+	//orders services
+	RegisterOrder(ctx context.Context, email string, status string, totalPrice float32) (*model.OrderResponse, error)
+	GetOrderByID(ctx context.Context, id int64, role string) (*model.Order, error)
+	GetOrdersByUser(ctx context.Context, email string) ([]model.Order, error)
+	//order items services
+	RegisterOrderItem(ctx context.Context, orderID, productID, quantity int64, price float32) error
 	GetOrderItemsByUser(ctx context.Context, email string) ([]model.OrderItemsByUser, error)
+	//payments services
+	RegisterPayment(ctx context.Context, orderID int64, paymentMethod string, amount float32, paymentDate time.Time, status string) error
 }
 
 type serv struct {

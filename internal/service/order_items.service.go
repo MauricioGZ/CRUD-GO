@@ -47,8 +47,11 @@ func (s *serv) GetOrderItemsByUser(ctx context.Context, email string) ([]model.O
 
 	ooii, err := s.repo.GetOrderItemsByUserID(ctx, user.ID)
 
-	if err != nil {
-		return nil, err
+	if ooii == nil {
+		if err != nil {
+			return nil, err
+		}
+		return nil, ErrNoOrdersRegistered
 	}
 
 	for _, oi := range ooii {

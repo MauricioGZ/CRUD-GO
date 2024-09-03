@@ -12,19 +12,23 @@ var (
 	ErrNoOrdersRegistered = errors.New("no orders registered")
 )
 
-func (s *serv) RegisterOrder(ctx context.Context, email string, status string, totalPrice float32) error {
+func (s *serv) RegisterOrder(ctx context.Context, email string, status string, totalPrice float32) (*model.OrderResponse, error) {
 	user, err := s.repo.GetUserByEmail(ctx, email)
 
 	if user == nil {
 		if err != nil {
-			return err
+			return nil, err
 		}
-		return ErrUserDoesntExist
+		return nil, ErrUserDoesntExist
 	}
 
-	err = s.repo.InsertOrder(ctx, user.ID, status, totalPrice)
+	orderID, err := s.repo.InsertOrder(ctx, user.ID, status, totalPrice)
 
-	return err
+	if err != nil {
+		return nil, err
+	}
+
+	return &model.OrderResponse{ID: *orderID}, nil
 }
 
 func (s *serv) GetOrderByID(ctx context.Context, id int64, role string) (*model.Order, error) {

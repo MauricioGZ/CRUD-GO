@@ -605,21 +605,33 @@ func (_m *MockRepository) InsertCategory(ctx context.Context, name string, descr
 }
 
 // InsertOrder provides a mock function with given fields: ctx, userID, status, totalPrice
-func (_m *MockRepository) InsertOrder(ctx context.Context, userID int64, status string, totalPrice float32) error {
+func (_m *MockRepository) InsertOrder(ctx context.Context, userID int64, status string, totalPrice float32) (*int64, error) {
 	ret := _m.Called(ctx, userID, status, totalPrice)
 
 	if len(ret) == 0 {
 		panic("no return value specified for InsertOrder")
 	}
 
-	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, int64, string, float32) error); ok {
+	var r0 *int64
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, int64, string, float32) (*int64, error)); ok {
+		return rf(ctx, userID, status, totalPrice)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, int64, string, float32) *int64); ok {
 		r0 = rf(ctx, userID, status, totalPrice)
 	} else {
-		r0 = ret.Error(0)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*int64)
+		}
 	}
 
-	return r0
+	if rf, ok := ret.Get(1).(func(context.Context, int64, string, float32) error); ok {
+		r1 = rf(ctx, userID, status, totalPrice)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
 }
 
 // InsertOrderItem provides a mock function with given fields: ctx, orderID, productID, quantity, price

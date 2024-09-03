@@ -22,7 +22,7 @@ func TestRegisterProduct(t *testing.T) {
 			Description:   "Some description",
 			Price:         100.0,
 			Stock:         100,
-			CategoryID:    1,
+			CategoryID:    validCategoryID,
 			Image:         "image",
 			ExpectedError: nil,
 		},
@@ -32,7 +32,7 @@ func TestRegisterProduct(t *testing.T) {
 			Description:   "Some description",
 			Price:         100.0,
 			Stock:         100,
-			CategoryID:    1,
+			CategoryID:    validCategoryID,
 			Image:         "image",
 			ExpectedError: ErrInvalidPermissions,
 		},
@@ -42,7 +42,7 @@ func TestRegisterProduct(t *testing.T) {
 			Description:   "Some description",
 			Price:         100.0,
 			Stock:         100,
-			CategoryID:    100,
+			CategoryID:    invalidCategoryID,
 			Image:         "image",
 			ExpectedError: ErrCategoryDoesNotExist,
 		},
@@ -81,12 +81,12 @@ func TestGetProductByID(t *testing.T) {
 	}{
 		{
 			Name:          "GetProductByID: Success",
-			ID:            1,
+			ID:            validProductID,
 			ExpectedError: nil,
 		},
 		{
 			Name:          "GetProductByID: Product doest not exist",
-			ID:            100,
+			ID:            invalidProductID,
 			ExpectedError: ErrProductDoesNotExist,
 		},
 	}
@@ -116,12 +116,12 @@ func TestGetProductsByCategory(t *testing.T) {
 	}{
 		{
 			Name:          "GetProductsByCategory: Success",
-			CategoryName:  "Existing Category",
+			CategoryName:  existingCategory,
 			ExpectedError: nil,
 		},
 		{
 			Name:          "GetProductsByCategory: Invalid category",
-			CategoryName:  "Unexisting Category",
+			CategoryName:  unexistingCategory,
 			ExpectedError: ErrCategoryDoesNotExist,
 		},
 	}
@@ -163,9 +163,9 @@ func TestUpdateProduct(t *testing.T) {
 			Description:   "Some description",
 			Price:         100.0,
 			Stock:         100,
-			CategoryID:    1,
+			CategoryID:    validCategoryID,
 			Image:         "some image",
-			ID:            1,
+			ID:            validProductID,
 			ExpectedError: nil,
 		},
 		{
@@ -175,9 +175,9 @@ func TestUpdateProduct(t *testing.T) {
 			Description:   "Some description",
 			Price:         100.0,
 			Stock:         100,
-			CategoryID:    1,
+			CategoryID:    validCategoryID,
 			Image:         "some image",
-			ID:            1,
+			ID:            validProductID,
 			ExpectedError: ErrInvalidPermissions,
 		},
 		{
@@ -187,9 +187,9 @@ func TestUpdateProduct(t *testing.T) {
 			Description:   "Some description",
 			Price:         100.0,
 			Stock:         100,
-			CategoryID:    2,
+			CategoryID:    validCategoryID,
 			Image:         "some image",
-			ID:            100,
+			ID:            invalidProductID,
 			ExpectedError: ErrProductDoesNotExist,
 		},
 	}
@@ -232,19 +232,19 @@ func TestDeleteProductByID(t *testing.T) {
 		{
 			Name:          "DeleteProductByID: Success",
 			Role:          "Admin",
-			ID:            1,
+			ID:            validProductID,
 			ExpectedError: nil,
 		},
 		{
 			Name:          "DeleteProductByID: Invalid permissions",
 			Role:          "Customer",
-			ID:            1,
+			ID:            validProductID,
 			ExpectedError: ErrInvalidPermissions,
 		},
 		{
 			Name:          "DeleteProductByID: Invalid product id",
 			Role:          "Admin",
-			ID:            100,
+			ID:            invalidProductID,
 			ExpectedError: ErrProductDoesNotExist,
 		},
 	}

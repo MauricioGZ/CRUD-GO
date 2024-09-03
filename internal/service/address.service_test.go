@@ -19,7 +19,7 @@ func TestRegisterAddress(t *testing.T) {
 	}{
 		{
 			Name:          "RegisterAddress: Success",
-			Email:         "email@existinguser.com",
+			Email:         existingUserEmail,
 			AddressType:   "billing",
 			Address:       "valid street",
 			City:          "valid city",
@@ -30,7 +30,7 @@ func TestRegisterAddress(t *testing.T) {
 		},
 		{
 			Name:          "RegisterAddress: Success",
-			Email:         "email@doesntexist.com",
+			Email:         unexistingUserEmail,
 			AddressType:   "billing",
 			Address:       "valid street",
 			City:          "valid city",
@@ -75,12 +75,12 @@ func TestGetAllAddresses(t *testing.T) {
 	}{
 		{
 			Name:          "RegisterAddress: Success",
-			Email:         "email@existinguser.com",
+			Email:         existingUserEmail,
 			ExpectedError: nil,
 		},
 		{
 			Name:          "RegisterAddress: Success",
-			Email:         "email@doesntexist.com",
+			Email:         unexistingUserEmail,
 			ExpectedError: ErrUserDoesntExist,
 		},
 	}

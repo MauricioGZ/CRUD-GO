@@ -9,6 +9,8 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	address := user.Group("/address")
 	categories := e.Group("/categories")
 	products := e.Group("/products")
+	order := user.Group("/order")
+	orderItem := order.Group("/item")
 
 	user.POST("/register", a.RegisterUser)
 	user.GET("/login", a.LoginUser)
@@ -26,4 +28,9 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	products.GET("/:id", a.GetProductByID)
 	products.PATCH("/:id", a.UpdateProductByID)
 	products.DELETE("/:id", a.DeleteProductByID)
+
+	order.POST("", a.AddOrder)
+	order.GET("", a.GetOrders)
+
+	orderItem.GET("", a.GetOrderItemsByUser)
 }

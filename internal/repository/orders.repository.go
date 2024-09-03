@@ -32,9 +32,11 @@ const (
 														totalPrice
 													from ORDERS
 													where userId = ?;`
+	qryLastInsertID = `select LAST_INSERT_ID();`
 )
 
-func (r *repo) InsertOrder(ctx context.Context, userID int64, status string, totalPrice float32) error {
+func (r *repo) InsertOrder(ctx context.Context, userID int64, status string, totalPrice float32) (*int64, error) {
+	var orderID int64
 	_, err := r.db.ExecContext(
 		ctx,
 		qryInsertOrder,
@@ -44,7 +46,22 @@ func (r *repo) InsertOrder(ctx context.Context, userID int64, status string, tot
 		totalPrice,
 	)
 
-	return err
+	if err != nil {
+		return nil, err
+	}
+
+	err = r.db.QueryRowContext(
+		ctx,
+		qryLastInsertID,
+	).Scan(
+		&orderID,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &orderID, nil
 }
 
 func (r *repo) GetOrderByID(ctx context.Context, id int64) (*entity.Order, error) {
