@@ -10,7 +10,7 @@ type RegisterAddress struct {
 }
 
 type UpdateAddress struct {
-	ID int64 `json:"id"`
+	ID int64 `param:"id"`
 	RegisterAddress
 }
 

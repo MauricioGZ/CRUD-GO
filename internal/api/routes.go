@@ -16,11 +16,11 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	user.GET("/login", a.LoginUser)
 
 	address.GET("", a.GetAddresses)
-	address.POST("/register", a.AddAddress)
-	address.PATCH("/update", a.UpdateAddress)
-	address.DELETE("/delete/:id", a.DeleteAddress)
+	address.POST("", a.AddAddress)
+	address.PATCH("/:id", a.UpdateAddress)
+	address.DELETE("/:id", a.DeleteAddress)
 
-	categories.POST("/register", a.RegisterCategory)
+	categories.POST("/", a.RegisterCategory)
 	categories.GET("/", a.GetAllCategories)
 
 	products.POST("/add", a.AddProduct)
