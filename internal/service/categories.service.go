@@ -14,7 +14,10 @@ var (
 	ErrCategoryDoesNotExist       = errors.New("category does not exist")
 )
 
-func (s *serv) RegisterCategory(ctx context.Context, name, description string, parentID int64) error {
+func (s *serv) RegisterCategory(ctx context.Context, role, name, description string, parentID int64) error {
+	if role != "Admin" {
+		return ErrInvalidPermissions
+	}
 
 	if parentID != 0 {
 		parentCategory, err := s.repo.GetCategoryByID(ctx, parentID)

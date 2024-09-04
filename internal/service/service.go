@@ -18,7 +18,7 @@ type Service interface {
 	GetAllAddresses(ctx context.Context, email string) ([]model.Address, error)
 	DeleteAddress(ctx context.Context, id int64, email string) error
 	//cateogires services
-	RegisterCategory(ctx context.Context, name, description string, parentID int64) error
+	RegisterCategory(ctx context.Context, role, name, description string, parentID int64) error
 	GetAllCategories(ctx context.Context) ([]model.Categories, error)
 	//products services
 	RegisterProduct(ctx context.Context, role, name, description string, price float32, stock, categoryId int64, image string) error
