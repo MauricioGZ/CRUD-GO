@@ -157,9 +157,14 @@ func TestGetAllAddresses(t *testing.T) {
 			ExpectedError: nil,
 		},
 		{
-			Name:          "RegisterAddress: Success",
+			Name:          "RegisterAddress: User does not exist",
 			Email:         unexistingUserEmail,
 			ExpectedError: ErrUserDoesntExist,
+		},
+		{
+			Name:          "RegisterAddress: User has no addresses",
+			Email:         existingUserEmailWithoutAddresses,
+			ExpectedError: ErrNoAddressesRegistered,
 		},
 	}
 
@@ -173,6 +178,50 @@ func TestGetAllAddresses(t *testing.T) {
 			repo.Mock.Test(t)
 
 			_, err := s.GetAllAddresses(ctx, tc.Email)
+			if err != tc.ExpectedError {
+				t.Errorf("Expected error %v, got %v", tc.ExpectedError, err)
+			}
+		})
+	}
+}
+
+func TestDeleteAddress(t *testing.T) {
+	testCases := []struct {
+		Name          string
+		ID            int64
+		Email         string
+		ExpectedError error
+	}{
+		{
+			Name:          "DeleteAddress: Success",
+			ID:            validAddresID,
+			Email:         existingUserEmail,
+			ExpectedError: nil,
+		},
+		{
+			Name:          "DeleteAddress: User does not exist",
+			ID:            validAddresID,
+			Email:         unexistingUserEmail,
+			ExpectedError: ErrUserDoesntExist,
+		},
+		{
+			Name:          "DeleteAddress: User has no addresses",
+			ID:            validAddresID,
+			Email:         existingUserEmailWithoutAddresses,
+			ExpectedError: ErrAddressDoesNotExist,
+		},
+	}
+
+	ctx := context.Background()
+
+	for i := range testCases {
+		tc := testCases[i]
+
+		t.Run(tc.Name, func(t *testing.T) {
+			t.Parallel()
+			repo.Mock.Test(t)
+
+			err := s.DeleteAddress(ctx, tc.ID, tc.Email)
 			if err != tc.ExpectedError {
 				t.Errorf("Expected error %v, got %v", tc.ExpectedError, err)
 			}

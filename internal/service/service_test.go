@@ -75,9 +75,11 @@ func TestMain(m *testing.M) {
 	//address repo mocks
 	repo.On("SaveAddress", mock.Anything, validUserID, mock.Anything, mock.Anything, mock.Anything, mock.Anything, mock.Anything, mock.Anything).Return(nil)
 	repo.On("GetAddressesByUserId", mock.Anything, validUserID).Return([]entity.Address{{Address: mock.Anything}, {Address: mock.Anything}}, nil)
+	repo.On("GetAddressesByUserId", mock.Anything, validUserIDWithoutAddresses).Return(nil, nil)
 	repo.On("GetAddressByID", mock.Anything, validAddresID, validUserID).Return(&entity.Address{ID: validAddresID}, nil)
-	repo.On("GetAddressByID", mock.Anything, validAddresID, validUserIDWithoutAddresses).Return(nil, nil)
+	repo.On("GetAddressByID", mock.Anything, mock.Anything, validUserIDWithoutAddresses).Return(nil, nil)
 	repo.On("UpdateAddressByID", mock.Anything, validAddresID, validUserID, mock.Anything, mock.Anything, mock.Anything, mock.Anything, mock.Anything, mock.Anything).Return(nil)
+	repo.On("DeleteAddressByID", mock.Anything, mock.Anything, mock.Anything).Return(nil)
 	//categories repo mocks
 	repo.On("GetCategoryByName", mock.Anything, newCategory).Return(nil, nil)
 	repo.On("GetCategoryByName", mock.Anything, unexistingCategory).Return(nil, nil)
