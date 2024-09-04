@@ -23,7 +23,7 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	categories.POST("/", a.RegisterCategory)
 	categories.GET("/", a.GetAllCategories)
 
-	products.POST("/add", a.AddProduct)
+	products.POST("/", a.AddProduct)
 	products.GET("", a.GetAllProducts)
 	products.GET("/:id", a.GetProductByID)
 	products.PATCH("/:id", a.UpdateProductByID)
