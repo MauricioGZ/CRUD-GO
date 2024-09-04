@@ -7,7 +7,8 @@ The goal is to implement a common ecomerce API, which the following databse stru
      alt="Markdown Monster icon" />
 
 # Architecture
-The used architecture for the API is an layered architecture based on the MVC architecture, where the API interface to the user, the bussiness logic, the interaction with the database and the connection to the database are divided.
+The used architecture for the API is an layered architecture based on the MVC architecture, where the API interface to the user, the bussiness logic, the interaction with the database and the connection to the database are divided. 
+Using the concept of dependency injection, it is possible to isolate the different layers of the whole program.
 
 <img src="misc/architecture.png"
      alt="Markdown Monster icon"/>
