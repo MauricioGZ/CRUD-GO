@@ -123,3 +123,31 @@ insert into PERMISSIONS_ROLES(permissionId, roleId) values (3,2); -- Update
 
 -- Customer
 insert into PERMISSIONS_ROLES(permissionId, roleId) values (2,3); -- Read
+
+insert into USERS(email, firstName, password, roleId, createdAt) values
+("admin@mail.com", "admin", "", "6u6mXJogpVIo1CZ0QkjRrFtv80e5deCGYdwFIsiXbn7Rx7exPdeMFqE", 1, CURRENT_TIMESTAMP());
+
+insert into CATEGORIES (name, description, parentId) values
+('Electronics', 'Electronic devices and accessories', NULL),
+('Clothing', 'Apparel and fashion items', NULL),
+('Books', 'Books and literature', NULL),
+('HomeGoods', 'Household items and furnishings', NULL),
+('Electronics Smartphones', 'Mobile phones', 1),
+('Electronics Computers', 'Desktops, laptops, and components', 1),
+('Electronics Gaming', 'Gaming consoles and peripherals', 1),
+('Clothing Men', 'Clothing for men', 2),
+('Clothing Women', 'Clothing for wamen', 2),
+('Clothing Kids', 'Clothing for children', 2),
+('Books Fiction', 'Fictional works', 3),
+('Books NonFiction', 'Non-fictional works', 3),
+('HomeGoods Kitchen', 'Kitchenware and appliances', 4),
+('HomeGoods Furniture', 'Furniture for home and office', 4);
+
+insert into PRODUCTS (name, description, price, stock, categoryId, image, createdAt, updatedAt) VALUES
+('iPhone 14 Pro', 'Latest iPhone model with Pro features', 1199.99, 50, 2, 'iphone14pro.jpg',CURRENT_TIMESTAMP(),CURRENT_TIMESTAMP()),
+('Gaming Laptop', 'High-performance gaming laptop', 1599.99, 20, 3, 'gaminglaptop.jpg',CURRENT_TIMESTAMP(),CURRENT_TIMESTAMP()),
+('Jeans for men', 'Classic denim jeans', 49.99, 100, 6, 'mensjeans.jpg',CURRENT_TIMESTAMP(),CURRENT_TIMESTAMP()),
+('Dress for women', 'Elegant evening dress', 99.99, 30, 7, 'womensdress.jpg',CURRENT_TIMESTAMP(),CURRENT_TIMESTAMP()),
+('Science Fiction Novel', 'A thrilling sci-fi adventure', 19.99, 50, 10, 'scifinovel.jpg',CURRENT_TIMESTAMP(),CURRENT_TIMESTAMP()),
+('Cookbook', 'Recipes for delicious home-cooked meals', 24.99, 15, 13, 'cookbook.jpg',CURRENT_TIMESTAMP(),CURRENT_TIMESTAMP()),
+('Sofa', 'Modern leather sofa', 999.99, 10, 14, 'sofa.jpg',CURRENT_TIMESTAMP(),CURRENT_TIMESTAMP());
