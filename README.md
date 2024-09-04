@@ -20,5 +20,10 @@ The used architecture for the API is an layered architecture based on the MVC ar
 - User login: GET localhost:8000/user/login Request Body: {"email": "somevalid@email.com", "password":"somepassword"}
 ## Address endpoints
 - Register a new address: POST localhost:8000/user/address/ Request Body: {"address_type":"billing" || "shipping", "address":"some address", "city":"some city", "state":"some state", "country": "some country", "zip_code":"some zip code"}. Note: This end point works only if an user has loged in.
+- Get all addresses of an user; Get localshot:8000/user/address Note: This end point works only if an user has loged in.
 - Update an address: PATCH localhost:8000/user/address/address_id Request Body: is the same frome the endpoint "register a new address", but only the field, that shall be updated, has to be specified in the request body. Note: This end point works only if an user has loged in.
 - Delete an address: DELETE localhost:8000/user/address/address_id Request Body: empty. Note: This end point works only if an user has loged in.
+## Categoires endpoints
+- Register a new category: POST localhot:8000/user/categories Request Body: {"name":"some category name", "description":"some description", "parent_id": id of the parente category, if the field is empty means that the category does not have a parent category}. Note: only users with the admin role may add new categories.
+- Get all categoires: GET localhot:8000/user/categorie
+
