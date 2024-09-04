@@ -20,10 +20,10 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	address.PATCH("/:id", a.UpdateAddress)
 	address.DELETE("/:id", a.DeleteAddress)
 
-	categories.POST("/", a.RegisterCategory)
-	categories.GET("/", a.GetAllCategories)
+	categories.POST("", a.RegisterCategory)
+	categories.GET("", a.GetAllCategories)
 
-	products.POST("/", a.AddProduct)
+	products.POST("", a.AddProduct)
 	products.GET("", a.GetAllProducts)
 	products.GET("/:id", a.GetProductByID)
 	products.PATCH("/:id", a.UpdateProductByID)

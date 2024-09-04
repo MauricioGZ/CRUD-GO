@@ -13,6 +13,10 @@ The used architecture for the API is an layered architecture based on the MVC ar
      alt="Markdown Monster icon"/>
 
 # Endpoints
+For the moment the following endpoints are implemented.
+Note: the database contains just one user with the role admin (this user is predefined in the schema.sql).
+email: admin@mail.com
+password: adminpassword
 
 ## User endpoints
 - Register a new user: POST HOST:PORT/user/register Request Body: {"first_name":"some first name", "last_name":"some last name", "email": "somevalid@email.com", "password":"somepassword"}
