@@ -17,22 +17,25 @@ var s Service
 var mc mockCache
 
 const (
-	validUserID                    int64  = 1
-	validUserIDWithoutOrders       int64  = 2
-	noParentID                     int64  = 0
-	invalidCategoryID              int64  = 100
-	validCategoryID                int64  = 1
-	validProductID                 int64  = 1
-	invalidProductID               int64  = 100
-	validOrderItemID               int64  = 1
-	existingUserEmail              string = "email@existinguser.com"
-	unexistingUserEmail            string = "email@unexistinguser.com"
-	existingUserEmailWithoutOrders string = "noordersemail@existinguser.com"
-	validPassword                  string = "validpassword"
-	invalidPassword                string = "invalidpassword"
-	newCategory                    string = "New Category"
-	existingCategory               string = "Existing Category"
-	unexistingCategory             string = "Unexisting Category"
+	validUserID                       int64  = 1
+	validUserIDWithoutOrders          int64  = 2
+	validUserIDWithoutAddresses       int64  = 3
+	validAddresID                     int64  = 1
+	noParentID                        int64  = 0
+	invalidCategoryID                 int64  = 100
+	validCategoryID                   int64  = 1
+	validProductID                    int64  = 1
+	invalidProductID                  int64  = 100
+	validOrderItemID                  int64  = 1
+	existingUserEmail                 string = "email@existinguser.com"
+	unexistingUserEmail               string = "email@unexistinguser.com"
+	existingUserEmailWithoutOrders    string = "noordersemail@existinguser.com"
+	existingUserEmailWithoutAddresses string = "noaddressesemail@existinguser.com"
+	validPassword                     string = "validpassword"
+	invalidPassword                   string = "invalidpassword"
+	newCategory                       string = "New Category"
+	existingCategory                  string = "Existing Category"
+	unexistingCategory                string = "Unexisting Category"
 )
 
 var (
@@ -62,10 +65,19 @@ func TestMain(m *testing.M) {
 		Password: encryptedValidPassword64,
 		RoleID:   roleIDs["Customer"],
 	}, nil)
+	repo.On("GetUserByEmail", mock.Anything, existingUserEmailWithoutAddresses).Return(&entity.User{
+		ID:       validUserIDWithoutAddresses,
+		Email:    existingUserEmailWithoutOrders,
+		Password: encryptedValidPassword64,
+		RoleID:   roleIDs["Customer"],
+	}, nil)
 	repo.On("InsertUser", mock.Anything, mock.Anything, mock.Anything, mock.Anything, mock.Anything, mock.Anything).Return(nil)
 	//address repo mocks
 	repo.On("SaveAddress", mock.Anything, validUserID, mock.Anything, mock.Anything, mock.Anything, mock.Anything, mock.Anything, mock.Anything).Return(nil)
 	repo.On("GetAddressesByUserId", mock.Anything, validUserID).Return([]entity.Address{{Address: mock.Anything}, {Address: mock.Anything}}, nil)
+	repo.On("GetAddressByID", mock.Anything, validAddresID, validUserID).Return(&entity.Address{ID: validAddresID}, nil)
+	repo.On("GetAddressByID", mock.Anything, validAddresID, validUserIDWithoutAddresses).Return(nil, nil)
+	repo.On("UpdateAddressByID", mock.Anything, validAddresID, validUserID, mock.Anything, mock.Anything, mock.Anything, mock.Anything, mock.Anything, mock.Anything).Return(nil)
 	//categories repo mocks
 	repo.On("GetCategoryByName", mock.Anything, newCategory).Return(nil, nil)
 	repo.On("GetCategoryByName", mock.Anything, unexistingCategory).Return(nil, nil)

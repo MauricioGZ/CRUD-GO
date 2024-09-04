@@ -14,9 +14,9 @@ type Service interface {
 	LoginUser(ctx context.Context, email, password string) (*model.User, error)
 	//address services
 	RegisterAddress(ctx context.Context, email, addressType, address, city, state, country, zipCode string) error
-	UpdateAddress(ctx context.Context, id int64, addressType, address, city, state, country, zipCode string) error
+	UpdateAddress(ctx context.Context, id int64, email, addressType, address, city, state, country, zipCode string) error
 	GetAllAddresses(ctx context.Context, email string) ([]model.Address, error)
-	DeleteAddress(ctx context.Context, id int64) error
+	DeleteAddress(ctx context.Context, id int64, email string) error
 	//cateogires services
 	RegisterCategory(ctx context.Context, name, description string, parentID int64) error
 	GetAllCategories(ctx context.Context) ([]model.Categories, error)

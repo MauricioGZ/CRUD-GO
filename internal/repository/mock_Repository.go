@@ -16,17 +16,17 @@ type MockRepository struct {
 	mock.Mock
 }
 
-// DeleteAddressByID provides a mock function with given fields: ctx, id
-func (_m *MockRepository) DeleteAddressByID(ctx context.Context, id int64) error {
-	ret := _m.Called(ctx, id)
+// DeleteAddressByID provides a mock function with given fields: ctx, id, userID
+func (_m *MockRepository) DeleteAddressByID(ctx context.Context, id int64, userID int64) error {
+	ret := _m.Called(ctx, id, userID)
 
 	if len(ret) == 0 {
 		panic("no return value specified for DeleteAddressByID")
 	}
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, int64) error); ok {
-		r0 = rf(ctx, id)
+	if rf, ok := ret.Get(0).(func(context.Context, int64, int64) error); ok {
+		r0 = rf(ctx, id, userID)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -104,6 +104,36 @@ func (_m *MockRepository) DeleteUserByEmail(ctx context.Context, email string) e
 	}
 
 	return r0
+}
+
+// GetAddressByID provides a mock function with given fields: ctx, id, userID
+func (_m *MockRepository) GetAddressByID(ctx context.Context, id int64, userID int64) (*entity.Address, error) {
+	ret := _m.Called(ctx, id, userID)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetAddressByID")
+	}
+
+	var r0 *entity.Address
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, int64, int64) (*entity.Address, error)); ok {
+		return rf(ctx, id, userID)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, int64, int64) *entity.Address); ok {
+		r0 = rf(ctx, id, userID)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.Address)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, int64, int64) error); ok {
+		r1 = rf(ctx, id, userID)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
 }
 
 // GetAddressesByUserId provides a mock function with given fields: ctx, userId
@@ -724,17 +754,17 @@ func (_m *MockRepository) SaveAddress(ctx context.Context, userId int64, address
 	return r0
 }
 
-// UpdateAddressByID provides a mock function with given fields: ctx, id, addressType, address, city, state, country, zipCode
-func (_m *MockRepository) UpdateAddressByID(ctx context.Context, id int64, addressType string, address string, city string, state string, country string, zipCode string) error {
-	ret := _m.Called(ctx, id, addressType, address, city, state, country, zipCode)
+// UpdateAddressByID provides a mock function with given fields: ctx, id, userID, addressType, address, city, state, country, zipCode
+func (_m *MockRepository) UpdateAddressByID(ctx context.Context, id int64, userID int64, addressType string, address string, city string, state string, country string, zipCode string) error {
+	ret := _m.Called(ctx, id, userID, addressType, address, city, state, country, zipCode)
 
 	if len(ret) == 0 {
 		panic("no return value specified for UpdateAddressByID")
 	}
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, int64, string, string, string, string, string, string) error); ok {
-		r0 = rf(ctx, id, addressType, address, city, state, country, zipCode)
+	if rf, ok := ret.Get(0).(func(context.Context, int64, int64, string, string, string, string, string, string) error); ok {
+		r0 = rf(ctx, id, userID, addressType, address, city, state, country, zipCode)
 	} else {
 		r0 = ret.Error(0)
 	}

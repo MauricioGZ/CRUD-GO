@@ -19,8 +19,9 @@ type Repository interface {
 	//address interfaces
 	SaveAddress(ctx context.Context, userId int64, addressType, address, city, state, country, zipCode string) error
 	GetAddressesByUserId(ctx context.Context, userId int64) ([]entity.Address, error)
-	DeleteAddressByID(ctx context.Context, id int64) error
-	UpdateAddressByID(ctx context.Context, id int64, addressType, address, city, state, country, zipCode string) error
+	DeleteAddressByID(ctx context.Context, id, userID int64) error
+	UpdateAddressByID(ctx context.Context, id, userID int64, addressType, address, city, state, country, zipCode string) error
+	GetAddressByID(ctx context.Context, id, userID int64) (*entity.Address, error)
 	//categories interfaces
 	InsertCategory(ctx context.Context, name, description string, parentID int64) error
 	GetAllCategories(ctx context.Context) ([]entity.Categories, error)

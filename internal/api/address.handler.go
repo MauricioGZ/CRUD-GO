@@ -41,7 +41,7 @@ func (a *API) AddAddress(c echo.Context) error {
 func (a *API) UpdateAddress(c echo.Context) error {
 	ctx := c.Request().Context()
 	aParams := dtos.UpdateAddress{}
-	_, _, err := validateUser(c)
+	email, _, err := validateUser(c)
 
 	if err != nil {
 		return c.JSON(http.StatusUnauthorized, responseMessage{Message: "unauthorized"})
@@ -54,6 +54,7 @@ func (a *API) UpdateAddress(c echo.Context) error {
 	err = a.serv.UpdateAddress(
 		ctx,
 		aParams.ID,
+		email,
 		aParams.AddressType,
 		aParams.Address,
 		aParams.City,
@@ -88,7 +89,7 @@ func (a *API) GetAddresses(c echo.Context) error {
 func (a *API) DeleteAddress(c echo.Context) error {
 	ctx := c.Request().Context()
 	aParams := dtos.DeleteAddress{}
-	_, _, err := validateUser(c)
+	email, _, err := validateUser(c)
 
 	if err != nil {
 		return c.JSON(http.StatusUnauthorized, responseMessage{Message: "unauthorized"})
@@ -98,7 +99,7 @@ func (a *API) DeleteAddress(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: "invalid request"})
 	}
 
-	err = a.serv.DeleteAddress(ctx, aParams.ID)
+	err = a.serv.DeleteAddress(ctx, aParams.ID, email)
 
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "internal server error"})
